@@ -27,7 +27,7 @@ The mandatory part handles core format specifiers (`%c`, `%s`, `%p`, `%d`, `%i`,
 
 The core logic relies on a sequential pass through the format string using a modular routing approach. The flowchart below shows how the format string is read character by character, how each `%` conversion is routed to its dedicated helper, and how the printed-character count is accumulated and returned.
 
-![ft_printf Flowchart]([./Blank_diagram.svg](https://github.com/Yuuuri01/PRINTF_42/blob/main/Blank%20diagram.svg)
+![ft_printf Flowchart](https://raw.githubusercontent.com/Yuuuri01/PRINTF_42/main/Blank%20diagram.svg)
 
 ### Algorithm Justification
 
