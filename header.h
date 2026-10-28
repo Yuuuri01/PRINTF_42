@@ -1,6 +1,10 @@
 #ifndef HEADER_H
 #define HEADER_H
 
+#include <unistd.h>
+#include <stdarg.h>
+#include <stdio.h>
+
 typedef struct format {
     int plus;
     int hash;
@@ -9,9 +13,13 @@ typedef struct format {
     int minus;
     int space;
     int zero;
+    int sp_padding;
+    int zero_padding;
     char F;
 } s_form;
 
+
+int ft_parse_char(s_form *form, int c);
 //none 0
 // #define G_NONE   ""
 

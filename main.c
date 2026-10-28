@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <header.h>
+#include "header.h"
 
 
 
@@ -8,7 +6,7 @@ int valid_format(char c)
 {
     char *str;
 
-    str = "sdipXxc";
+    str = "sdipuXxc";
     while(*str)
     {
         if(*str == c)
@@ -18,14 +16,18 @@ int valid_format(char c)
     return 0;
 }
 
-int despatch_flags(s_form *forms, const char *args)
+int despatch_flags(s_form *forms, va_list args)
 {
-
+    if(forms->F == 'c')
+        return (ft_parse_char(forms, va_arg(args, int)));
+    return 0;
 }
 
-char *get_flags(const char *str, s_form *format)
+char *get_flags(const char *s, s_form *format)
 {
-    s_form formes;
+    char *str;
+
+    str = (char *)s;
     while(*str == '#' || *str == '-' || *str == '+' || *str == '0' || *str == ' ')
     {
         if(*str == '#')
@@ -48,8 +50,10 @@ char *get_flags(const char *str, s_form *format)
         format->precision = 0;
         str++;
         while(*str >= '0' && *str <= '9')
-        
+            format->precision = format->precision * 10 + (*str++ - 48);
     }
+    if(valid_format(*str))
+        format->F = *str;
     return str;
 }
 
@@ -59,18 +63,32 @@ int ft_printf(const char *args, ...)
     int count;
     s_form form;
 
-    form.precision = -1;
+
+    count = 0;
     va_start(ap, args);
     while(*args)
     {
-        if(*args == '%')
+        if(*args == '%' && (*(args + 1) != '%'))
         {
             args++;
+            form = (s_form){0};
+            form.precision = -1;
             args = get_flags(args, &form);
-            count += despatch_flags(&form, args);
+            count += despatch_flags(&form, ap);
         }
-
+        else
+            count += write(1, &(*args), 1);
+        args++;
     }
+    va_end(ap);
+    return count;
+}
+
+
+int main()
+{
+    printf("%c\n", 'c');
+    ft_printf("%c\n", 'c');
 }
 
 //%  flags  width  .precision  length  specifier
